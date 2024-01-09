@@ -1,5 +1,5 @@
 //
-// Copyright © 2023 Hardcore Engineering Inc.
+// Copyright © 2022 Hardcore Engineering Inc.
 //
 // Licensed under the Eclipse Public License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License. You may
@@ -13,12 +13,25 @@
 // limitations under the License.
 //
 
-import { Doc as YDoc } from 'yjs'
-import { Context } from '../context'
+import { type ComponentType } from 'svelte'
+import { writable } from 'svelte/store'
 
-export interface StorageAdapter {
-  loadDocument: (documentId: string, context: Context) => Promise<YDoc | undefined>
-  saveDocument: (documentId: string, document: YDoc, context: Context) => Promise<void>
+/**
+ * @public
+ */
+export interface SettingsStore {
+  component?: ComponentType | null
+  props?: object | null
 }
 
-export type StorageAdapters = Record<string, StorageAdapter>
+/**
+ * @public
+ */
+export const settingsStore = writable<SettingsStore>({})
+
+/**
+ * @public
+ */
+export const clearSettingsStore = (): void => {
+  settingsStore.set({ component: null, props: null })
+}
